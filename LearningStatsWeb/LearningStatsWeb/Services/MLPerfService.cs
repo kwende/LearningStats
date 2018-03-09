@@ -20,7 +20,7 @@ namespace LearningStatsWeb.Services
         {
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
-                conn.Open(); 
+                conn.Open();
                 using (MySqlCommand command = conn.CreateCommand())
                 {
                     command.CommandText = "insert into status (Value, Step, InsertedOn, SessionName) values (@value, @step, @insertedon, @sessionName)";
@@ -34,12 +34,36 @@ namespace LearningStatsWeb.Services
             }
         }
 
-        public List<float> GetValues(string sessionName)
+        public List<string> GetSessionNames()
         {
-            List<float> ret = new List<float>(); 
+            List<string> sessionNames = new List<string>();
+
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
-                conn.Open(); 
+                conn.Open();
+                using (MySqlCommand command = conn.CreateCommand())
+                {
+                    command.CommandText = "select distinct sessionname from mlperf.status";
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sessionNames.Add((string)reader[0]);
+                        }
+                    }
+                }
+            }
+
+            return sessionNames;
+        }
+
+        public List<float> GetValues(string sessionName)
+        {
+            List<float> ret = new List<float>();
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
                 using (MySqlCommand command = conn.CreateCommand())
                 {
                     command.CommandText = "select value from mlperf.status where SessionName = @sessionName order by step asc";
@@ -47,14 +71,14 @@ namespace LearningStatsWeb.Services
 
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        while(reader.Read())
+                        while (reader.Read())
                         {
-                            ret.Add((float)(decimal)reader[0]); 
+                            ret.Add((float)(decimal)reader[0]);
                         }
                     }
                 }
             }
-            return ret; 
+            return ret;
         }
     }
 }

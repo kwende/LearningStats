@@ -10,11 +10,15 @@ namespace LearningStatsWeb.Pages
 {
     public class IndexModel : PageModel
     {
+        public List<string> SessionNames { get; set; }
+
         public void OnGet()
         {
+            MLPerfService service = HttpContext.RequestServices.GetService(typeof(MLPerfService)) as MLPerfService;
 
+            SessionNames = service.GetSessionNames();
 
-            return; 
+            return;
         }
     }
 }
