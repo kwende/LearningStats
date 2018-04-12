@@ -65,3 +65,9 @@
 
 <div id="curve_chart_last200" style="width: 900px; height: 500px"></div>
 
+<form method="post">
+    Git hash: <input type="text" name="gitHash" id="gitHash" value="@Model.GitHash" /><br/>
+    Notes: <textarea name="notes" cols="50" rows="5">@Model.Notes</textarea><br/>
+    <input type="hidden" value="@Model.SessionName" name="sessionName" />
+    <input type="submit" />
+</form>
