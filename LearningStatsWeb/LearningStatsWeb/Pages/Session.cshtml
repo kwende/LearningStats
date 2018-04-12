@@ -20,10 +20,21 @@
 
         var data2 = google.visualization.arrayToDataTable([
             ['Step', 'Accuracy'],
-            @for(int c=Model.SessionValues.Count-1;c>Model.SessionValues.Count-200 && c>=0;c--)
+            @if(Model.SessionValues.Count < 200)
             {
-                @:['@c', @Model.SessionValues[c]],
+                for(int c=0;c<Model.SessionValues.Count;c++)
+                {
+                    @:['@c', @Model.SessionValues[c]],
+                }
             }
+            else
+            {
+                for(int c=Model.SessionValues.Count-200; c<Model.SessionValues.Count;c++)
+                {
+                    @:['@c', @Model.SessionValues[c]],
+                }
+            }
+
         ]);
 
         var options = {
