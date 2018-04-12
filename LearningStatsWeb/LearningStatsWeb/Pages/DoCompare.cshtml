@@ -1,0 +1,48 @@
+﻿@page
+@model LearningStatsWeb.Pages.DoCompareModel
+@{
+    ViewData["Title"] = "DoCompare";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Steps');
+        data.addColumn('number', '@Model.SessionAName');
+        data.addColumn('number', '@Model.SessionBName');
+
+        data.addRows(@Model.MaximumLength);
+
+        @for(int i=0;i<Model.MaximumLength;i++)
+        {
+            @:data.setValue(@i, 0, @i);
+        }
+
+        @for(int i=0;i<Model.SessionAValues.Count;i++)
+        {
+            @:data.setValue(@i, 1, @Model.SessionAValues[i]);
+        }
+
+        @for(int i=0;i<Model.SessionBValues.Count;i++)
+        {
+            @:data.setValue(@i, 2, @Model.SessionBValues[i]);
+        }
+
+        var options = {
+            title: 'Learning Performance',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+    }
+</script>
+
+<div id="curve_chart" style="width: 900px; height: 500px"></div>

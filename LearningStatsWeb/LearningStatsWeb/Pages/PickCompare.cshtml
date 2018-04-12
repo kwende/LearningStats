@@ -1,0 +1,31 @@
+﻿@page
+@model LearningStatsWeb.Pages.PickCompareModel
+@{
+    ViewData["Title"] = "PickCompare";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Select two to compare</h2>
+
+<form method="post">
+    A:
+    <select name="selectA" id="selectA">
+        @foreach (string s in Model.SessionNames)
+        {
+            <option value="@s">@s</option>
+        }
+    </select>
+
+    B:
+    <select name="selectB" id="selectB">
+        @foreach (string s in Model.SessionNames)
+        {
+            <option value="@s">@s</option>
+        }
+    </select>
+    <br/>
+    <input type="submit"/>
+</form>
+
+
+

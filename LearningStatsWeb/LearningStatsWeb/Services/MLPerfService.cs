@@ -55,6 +55,27 @@ namespace LearningStatsWeb.Services
             }
         }
 
+        internal void DeleteSession(string sessionToDelete)
+        {
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+                using (MySqlCommand command = conn.CreateCommand())
+                {
+                    command.CommandText = "delete from status where SessionName = @sessionName";
+                    command.Parameters.AddWithValue("SessionName", sessionToDelete);
+                    command.ExecuteNonQuery();
+                }
+
+                using (MySqlCommand command = conn.CreateCommand())
+                {
+                    command.CommandText = "delete from sessionproperties where sessionName=@sessionName";
+                    command.Parameters.AddWithValue("sessionName", sessionToDelete);
+                    command.ExecuteNonQuery(); 
+                }
+            }
+        }
+
         public void InsertValue(int step, float value, DateTime insertedOn, string sessionName)
         {
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
@@ -103,7 +124,7 @@ namespace LearningStatsWeb.Services
 
             using (MySqlConnection conn = new MySqlConnection(ConnectionString))
             {
-                conn.Open(); 
+                conn.Open();
                 using (MySqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = "select id,gitHash,notes from sessionproperties where sessionName=@sessionName";
@@ -119,7 +140,7 @@ namespace LearningStatsWeb.Services
                                 Notes = (string)reader[2],
                                 SessionName = sessionName
                             };
-                            break; 
+                            break;
                         }
                     }
                 }
