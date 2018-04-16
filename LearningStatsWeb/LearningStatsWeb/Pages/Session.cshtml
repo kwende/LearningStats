@@ -21,7 +21,7 @@
 
         var data2 = google.visualization.arrayToDataTable([
             ['Step', 'Accuracy'],
-            @if(Model.SessionValues.Count < 200)
+            @if(Model.SessionValues.Count < 50)
             {
                 for(int c=0;c<Model.SessionValues.Count;c++)
                 {
@@ -30,7 +30,7 @@
             }
             else
             {
-                for(int c=Model.SessionValues.Count-200; c<Model.SessionValues.Count;c++)
+                for(int c=Model.SessionValues.Count-50; c<Model.SessionValues.Count;c++)
                 {
                     @:['@c', @Model.SessionValues[c]],
                 }
@@ -49,7 +49,6 @@
 
         var options2 = {
             title: 'Learning Performance - last 200 data points',
-            curveType: 'function',
             legend: { position: 'bottom' }
         };
 
