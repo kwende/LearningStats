@@ -4,6 +4,14 @@
     ViewData["Title"] = "Session";
 }
 
+<script>
+    function refresh() {
+        window.location.reload(true);
+    }
+
+    setTimeout(refresh, 60 * 1000);
+</script>
+
 <a href="Delete?name=@Model.SessionName">Delete</a>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
